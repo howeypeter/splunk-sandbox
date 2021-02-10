@@ -1,0 +1,141 @@
+version: '2'
+
+services:
+  splunk-lm:
+    image: splunk/splunk
+    container_name: splunk-lm
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_PASSWORD: password
+      SPLUNK_USE: licensemaster,deployment-server,monitoringconsole
+    ports:
+      - '8000:8000'
+    volumes:
+      - lm-opt-splunk-etc:/opt/splunk/etc
+      - lm-opt-splunk-var:/opt/splunk/var
+  splunk-sh1:
+    image: splunk/splunk
+    container_name: splunk-sh1
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_PASSWORD: password
+      SPLUNK_USE: searchhead
+    ports:
+      - '8001:8000'
+    volumes:
+      - sh1-opt-splunk-etc:/opt/splunk/etc
+      - sh1-opt-splunk-var:/opt/splunk/var
+  #splunk-sh2:
+  #  image: splunk/splunk
+  #  container_name: splunk-sh2
+  #  environment:
+  #    SPLUNK_START_ARGS: --accept-license
+  #    SPLUNK_PASSWORD: password
+  #    SPLUNK_USE: searchhead
+  #  ports:
+  #    - '8002:8000'
+  #  volumes:
+  #    - sh2-opt-splunk-etc:/opt/splunk/etc
+  #    - sh2-opt-splunk-var:/opt/splunk/var
+  #splunk-dp:
+  #  image: splunk/splunk
+  #  container_name: splunk-dp
+  #  environment:
+  #    SPLUNK_START_ARGS: --accept-license
+  #    SPLUNK_PASSWORD: password
+  #    SPLUNK_USE: deployer
+  #  ports:
+  #    - '8003:8000'
+  #  volumes:
+  #    - dp-opt-splunk-etc:/opt/splunk/etc
+  #    - dp-opt-splunk-var:/opt/splunk/var
+  splunk-fwd1:
+    container_name: splunk-fwd1
+    image: splunk/universalforwarder
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_PASSWORD: password
+      SPLUNK_USE: forwarder
+    volumes:
+      - fwd1-opt-splunk-etc:/opt/splunk/etc
+      - fwd1-opt-splunk-var:/opt/splunk/var
+  splunk-fwd2:
+    container_name: splunk-fwd2
+    build: .
+    image: universalforwarder-special
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_PASSWORD: password
+      SPLUNK_USE: forwarder
+    volumes:
+      - fwd2-opt-splunk-etc:/opt/splunk/etc
+      - fwd2-opt-splunk-var:/opt/splunk/var
+  splunk-midx01:
+    image: splunk/splunk
+    container_name: splunk-midx01
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_PASSWORD: password
+      SPLUNK_USE: masternode
+    ports:
+      - '8010:8000'
+    volumes:
+      - midx01-opt-splunk-etc:/opt/splunk/etc
+      - midx01-opt-splunk-var:/opt/splunk/var
+  splunk-idx01:
+    image: splunk/splunk
+    container_name: splunk-idx01
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_PASSWORD: password
+      SPLUNK_USE: clustermaster.licensemaster
+    ports:
+      - '8011:8000'
+    volumes:
+      - idx01-opt-splunk-etc:/opt/splunk/etc
+      - idx01-opt-splunk-var:/opt/splunk/var
+  splunk-idx02:
+    image: splunk/splunk
+    container_name: splunk-idx02
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_PASSWORD: password
+      SPLUNK_USE: clustermaster.licensemaster
+    ports:
+      - '8012:8000'
+    volumes:
+      - idx02-opt-splunk-etc:/opt/splunk/etc
+      - idx02-opt-splunk-var:/opt/splunk/var
+  splunk-idx03:
+    image: splunk/splunk
+    container_name: splunk-idx03
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_PASSWORD: password
+      SPLUNK_USE: clustermaster.licensemaster
+    ports:
+      - '8013:8000'
+    volumes:
+      - idx03-opt-splunk-etc:/opt/splunk/etc
+      - idx03-opt-splunk-var:/opt/splunk/var
+volumes:
+  fwd1-opt-splunk-etc:
+  fwd1-opt-splunk-var:
+  fwd2-opt-splunk-etc:
+  fwd2-opt-splunk-var:
+  sh1-opt-splunk-etc:
+  sh1-opt-splunk-var:
+  #sh2-opt-splunk-etc:
+  #sh2-opt-splunk-var:
+  lm-opt-splunk-etc:
+  lm-opt-splunk-var:
+  #dp-opt-splunk-etc:
+  #dp-opt-splunk-var:
+  midx01-opt-splunk-etc:
+  midx01-opt-splunk-var:
+  idx01-opt-splunk-etc:
+  idx01-opt-splunk-var:
+  idx02-opt-splunk-etc:
+  idx02-opt-splunk-var:
+  idx03-opt-splunk-etc:
+  idx03-opt-splunk-var:
