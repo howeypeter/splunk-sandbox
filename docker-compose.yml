@@ -45,7 +45,7 @@ services:
   #    SPLUNK_PASSWORD: password
   #    SPLUNK_USE: deployer
   #  ports:
-  #    - '8003:8000'
+  #    - '8002:8000'
   #  volumes:
   #    - dp-opt-splunk-etc:/opt/splunk/etc
   #    - dp-opt-splunk-var:/opt/splunk/var
